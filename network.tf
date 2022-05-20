@@ -66,7 +66,7 @@ module "network" {
 #Network security group
 
 module "network-security-group" {
-  source                   = ""
+  source                   = "./nsg_module"
   resource_group_name      = data.azurerm_resource_group.rg.name
   location                 = local.location
   security_group_name      = "nsg-${local.name}-1"
@@ -133,7 +133,7 @@ module "network-security-group" {
 
 # Vnet peering
 module "vnetpeering" {
-  source              = ""
+  source              = "./Vnet_peering"
   primary_vnet_name   = local.primary_vnet_name
   second_vnet_name    = local.second_vnet_name
   third_vnet_name     = local.third_vnet_name
@@ -151,7 +151,7 @@ module "vnetpeering" {
 # Route table
 
 module "route-table" {
-  source              = ""
+  source              = "./route_table"
   resource_group_name = data.azurerm_resource_group.rg.name
   location            = local.location
   route_table_name    = "rt-${local.name}-dev"
@@ -162,11 +162,11 @@ module "route-table" {
 #Firewall
 
 module "firewall" {
-  source               = "git link or own source"
+  source               = "./firewall_module"
   resource_group_name  = data.azurerm_resource_group.rg.name
   location             = local.location
   hub_vnet_name        = local.primary_vnet_name
-  firewall_subnet_name = "AzureFirewallSubnet" ### cant rename it
+  firewall_subnet_name = "AzureFirewallSubnet" ## Defualt-cant rename it
   tags                 = local.tags
 
   depends_on = [module.network]
