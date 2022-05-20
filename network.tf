@@ -19,13 +19,13 @@ provider "azurerm" {
 }
 ##Declare your own variables
 locals {
-  resource_group_name = "Cloudfoundation"
-  name                = "cloud-foundation"
+  resource_group_name = "Cloudfoundation"   #Your own rg name
+  name                = "cloud-foundation"   #Your own name
   primary_vnet_name   = "hub-vnet-${local.name}"
   second_vnet_name    = "dev-vnet-${local.name}"
   third_vnet_name     = "test-vnet-${local.name}"
   fourth_vnet_name    = "prod-vnet-${local.name}"
-  location            = "EastUS"
+  location            = "EastUS"   # desired location
   tags = {
      Environment = "Development"
     Region     = "eastus"
@@ -162,7 +162,7 @@ module "route-table" {
 #Firewall
 
 module "firewall" {
-  source               = "git::https://akshay:iwhb64thiwvu5sgmbq4jopcyz46ejhgenvkfa5ijrrohr422abwq@dev.azure.com/ismiletechnologies/CloudAgnosticIaC/_git/terraform-azurerm-network-firewall-aks"
+  source               = "git link or own source"
   resource_group_name  = data.azurerm_resource_group.rg.name
   location             = local.location
   hub_vnet_name        = local.primary_vnet_name
@@ -175,7 +175,7 @@ module "firewall" {
 #Express routes
 
 module "express-route" {
-  source              = "git::https://akshay:iwhb64thiwvu5sgmbq4jopcyz46ejhgenvkfa5ijrrohr422abwq@dev.azure.com/ismiletechnologies/CloudAgnosticIaC/_git/terraform-azurerm-express-route-aks"
+  source              = ""
   resource_group_name = data.azurerm_resource_group.rg.name
   location            = data.azurerm_resource_group.rg.location
   vwan_name           = "vwan-${local.name}-dev"
@@ -187,7 +187,7 @@ module "express-route" {
 
 #private end points, service points and load balancer
 module "pri_ser_lb" {
-  source                    = "git::https://akshay:iwhb64thiwvu5sgmbq4jopcyz46ejhgenvkfa5ijrrohr422abwq@dev.azure.com/ismiletechnologies/CloudAgnosticIaC/_git/terraform-azurerm-PELBSL-aks"
+  source                    = ""
   resource_group_name       = data.azurerm_resource_group.rg.name
   location                  = data.azurerm_resource_group.rg.location
   private_vnet_name         = "pl-vnet-${local.name}-dev"
@@ -205,7 +205,7 @@ module "pri_ser_lb" {
 
 #DNS private zone
 module "dns-private-zone" {
-  source                = "git::https://akshay:iwhb64thiwvu5sgmbq4jopcyz46ejhgenvkfa5ijrrohr422abwq@dev.azure.com/ismiletechnologies/CloudAgnosticIaC/_git/terraform-azurerm-DNS-aks"
+  source                = ""
   private_dns_zone_name = "randomdomain.com"
   resource_group_name   = data.azurerm_resource_group.rg.name
   tags                  = local.tags
